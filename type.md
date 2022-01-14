@@ -216,4 +216,17 @@ TypeScript는 실행 중인 파일 시스템의 대소문자 구분 규칙을 �
 
 이것은 유형 시스템의 정확도를 희생시키면서 컴파일하는 동안 시간을 절약할 수 있습니다. 예를 들어, 두 개의 라이브러리가 일관성 없는 방식으로 동일한 유형의 두 복사본을 정의할 수 있습니다. TypeScript는 모든 d.ts 파일의 전체 검사를 수행하는 대신 앱의 소스 코드에서 특별히 참조하는 코드를 유형 검사합니다.
 
+### isolatedModules
+
+만약에 isolatedModules가 설정되면 모든 구현 파일은 모듈이어야 합니다(이는 일종의 import/ export 형태를 가지고 있음을 의미합니다). 파일이 모듈이 아닐 경우 에러를 발생시킵니다.
+
+```jsx
+function fn() {}
+에러내용
+'index.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+
+```
+
+이 제한은 .d.ts파일에는 적용되지 않습니다.
+
 참고: [https://www.typescriptlang.org/tsconfig](https://www.typescriptlang.org/tsconfig)

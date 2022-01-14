@@ -1,4 +1,4 @@
-{
+const functionTy = () => {
   // 함수
   const hello = (name?: string): string => {
     return `hello, ${name || "world"}`;
@@ -14,9 +14,9 @@
   //console.log(result2);
 
   // 전달받은 매개변수를 배열로 나타낼 수 있음(...nums);
-  function add(...nums: number[]) {
+  const add = (...nums: number[]) => {
     return nums.reduce((result, num) => result + num, 0);
-  }
+  };
 
   console.log(add(1, 2, 3, 4));
 
@@ -52,13 +52,13 @@
   }
 
   // 식별가능한 union type
-  function getGift(gift: Mobile | Car) {
+  const getGift = (gift: Mobile | Car) => {
     if (gift.name === "car") {
       gift.start();
     } else {
       gift.call();
     }
-  }
+  };
 
   // Intersection Types
 
@@ -79,4 +79,6 @@
     price: 1000,
     color: "blue",
   };
-}
+};
+
+export default functionTy;

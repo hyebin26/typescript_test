@@ -1,13 +1,13 @@
-{
+const genericTy = () => {
   // Generic
 
-  function getSize(arr: number[]): number {
+  const getSize = (arr: number[]): number => {
     return arr.length;
-  }
+  };
 
-  function genericGetSize<T>(arr: T[]): number {
+  const genericGetSize = <T>(arr: T[]): number => {
     return arr.length;
-  }
+  };
 
   getSize([1, 2, 3, 4]); // 4
   //getSize(["hello","my","world",]); // 해결하기 위해 generic 사용
@@ -52,11 +52,13 @@
   const user: User = { name: "hyebin" };
   const book: Book = { price: 15000 };
 
-  function getName<T extends { name: string }>(data: T): string {
+  const getName = <T extends { name: string }>(data: T): string => {
     return data.name;
-  }
+  };
 
   getName(user);
-//   getName(book);
-//   getName(car);
-}
+  //   getName(book);
+  //   getName(car);
+};
+
+export default genericTy;

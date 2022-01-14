@@ -1,4 +1,4 @@
-{
+export const typeTs = () => {
   let car: string = "bmw";
   // let car = "bmw"; 스트링으로 인식 타임추론
   // car = 3;
@@ -16,19 +16,19 @@
   //c[1].toLocaleLowerCase(); => X
 
   // void, never
-  function sayHello(): void {
+  const sayHello = (): void => {
     console.log("hello");
-  } // 리턴 X
+  }; // 리턴 X
 
-  function showError(): never {
+  const showError = (): never => {
     throw new Error();
-  }
+  };
 
-  function infLoop(): never {
+  const infLoop = (): never => {
     while (true) {
       //do something
     }
-  }
+  };
 
   // enum 비슷한 값들 끼리 묶어준 것
 
@@ -42,4 +42,4 @@
   // null, undefined
   let d: null = null;
   let e: undefined = undefined;
-}
+};

@@ -1,4 +1,4 @@
-{
+export const interfaceTy = () => {
   type Score = "A" | "B" | "C" | "F";
   console.clear();
 
@@ -81,4 +81,4 @@
 
   console.log(benz);
   benz.start();
-}
+};
