@@ -13,7 +13,6 @@ function Content() {
   const [words, setWords] = useState<WordData[]>([]);
   useEffect(() => {
     setWords(data);
-    localStorage.setItem("bial", data);
   }, []);
   return (
     <ul className="contentContainer">
