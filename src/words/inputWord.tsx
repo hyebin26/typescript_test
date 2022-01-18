@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type inputProps = {
   handleSubmit: (form: { word: string; mean: string }) => void;
@@ -48,7 +48,7 @@ function InputWord({ handleSubmit, handleDelete, handleBlind }: inputProps) {
         <button type="submit">등록</button>
       </form>
       <div className="btnBox">
-        <button onClick={handleBlind}>가리기</button>
+        <button onClick={handleBlind}>뜻 가림</button>
         <button onClick={handleDelete}>삭제</button>
       </div>
     </div>

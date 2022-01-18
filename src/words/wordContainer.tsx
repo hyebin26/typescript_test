@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { arrayBuffer } from "stream/consumers";
+import { useEffect, useState } from "react";
 import Content from "./content";
-import { data } from "./data";
 import InputWord from "./inputWord";
 
 export interface Words {
@@ -12,7 +10,9 @@ export interface Words {
 
 function WordContainer() {
   const [words, setWords] = useState<Words[]>([]);
-  const [checkedId, setCheckId] = useState<number[]>([]);
+  const [checkedInput, setCheckedInput] = useState<boolean[]>(
+    Array.from({ length: words.length }, (x) => false)
+  );
   const [blind, setBlind] = useState(false);
   const handleSubmit = (form: { mean: string; word: string }) => {
     if (words.length >= 10) {
@@ -28,35 +28,35 @@ function WordContainer() {
       });
       localStorage.setItem("words", JSON.stringify(handleWord));
       setWords(handleWord);
+      setCheckedInput([...checkedInput, false]);
     }
   };
   const handleCheck = (id: number) => {
-    const handleCheckedId = [...checkedId];
-    const indexOfChecked = handleCheckedId.indexOf(id);
-    if (indexOfChecked === -1) {
-      handleCheckedId.push(id);
-      setCheckId(handleCheckedId);
-    }
-    if (indexOfChecked > -1) {
-      handleCheckedId.splice(indexOfChecked, 1);
-      setCheckId(handleCheckedId);
-    }
+    const handleCheckedInput = [...checkedInput];
+    handleCheckedInput[id] = !handleCheckedInput[id];
+    console.log(handleCheckedInput);
+    setCheckedInput(handleCheckedInput);
   };
   const handleDelete = () => {
-    const handleWord = [...words];
-    checkedId.forEach((item, idx) => {
-      handleWord.forEach((item2, idx2) => {
-        if (item === item2.id) {
-          handleWord.splice(idx2, 1);
-        }
-      });
-    });
-    handleWord.forEach((item, idx) => {
-      item.id = idx;
-    });
-    setCheckId([]);
-    setWords(handleWord);
-    localStorage.setItem("words", JSON.stringify(handleWord));
+    if (checkedInput.includes(true)) {
+      if (window.confirm("단어를 삭제하시겠습니까?")) {
+        let handleWords = [...words];
+        let handleInput = [...checkedInput];
+        handleWords = handleWords.filter((item, idx) => {
+          if (handleInput[item.id] === false) {
+            return item;
+          }
+        });
+        handleInput = handleInput.filter((item) => !item);
+        handleWords.forEach((item, idx) => (item.id = idx));
+        setWords(handleWords);
+        setCheckedInput(handleInput);
+        localStorage.setItem("words", JSON.stringify(handleWords));
+      }
+    }
+    if (!checkedInput.includes(true)) {
+      alert("체크된 단어가 없습니다.");
+    }
   };
   const handleBlind = () => {
     setBlind(!blind);
@@ -65,6 +65,11 @@ function WordContainer() {
     const data = localStorage.getItem("words");
     if (typeof data === "string") {
       setWords(JSON.parse(data));
+      setCheckedInput(
+        Array.from([...JSON.parse(data)], (x) => {
+          return false;
+        })
+      );
     }
   }, []);
   return (
@@ -74,7 +79,12 @@ function WordContainer() {
         handleDelete={handleDelete}
         handleBlind={handleBlind}
       />
-      <Content words={words} handleCheck={handleCheck} blind={blind} />
+      <Content
+        words={words}
+        handleCheck={handleCheck}
+        blind={blind}
+        checkedInput={checkedInput}
+      />
     </section>
   );
 }

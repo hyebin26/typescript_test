@@ -8,6 +8,7 @@ function Content(props: {
   words: Words[];
   handleCheck: (id: number) => void;
   blind: boolean;
+  checkedInput: boolean[];
 }) {
   // string 이면 되게
   const words = props.words;
@@ -19,11 +20,13 @@ function Content(props: {
         <p className="word">영어 단어</p>
         <p className="mean">뜻</p>
       </li>
-      {words.map((word) => (
+      {words.map((word, idx) => (
         <WordList
           word={word}
+          checked={props.checkedInput[word.id]}
           handleCheck={props.handleCheck}
           blind={props.blind}
+          key={word.id}
         />
       ))}
     </ul>
