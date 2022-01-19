@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
 import "./content.css";
-import { data } from "./data";
 import WordList from "./wordList";
-import { Words } from "./wordContainer";
+import { CheckedInput, Words } from "./wordContainer";
 
-function Content(props: {
+type ContentProps = {
   words: Words[];
   handleCheck: (id: number) => void;
   blind: boolean;
-  checkedInput: boolean[];
-}) {
+  checkedInput: CheckedInput;
+};
+
+function Content({ words, handleCheck, blind, checkedInput }: ContentProps) {
   // string 이면 되게
-  const words = props.words;
   return (
     <ul className="contentContainer">
       <li className="contentLi">
@@ -23,12 +22,22 @@ function Content(props: {
       {words.map((word, idx) => (
         <WordList
           word={word}
-          checked={props.checkedInput[word.id]}
-          handleCheck={props.handleCheck}
-          blind={props.blind}
+          checked={checkedInput[word.id]}
+          handleCheck={handleCheck}
+          blind={blind}
           key={word.id}
         />
       ))}
+      {!words.length ? (
+        <li className="wordList">
+          <p className="checker"></p>
+          <p className="order"></p>
+          <p className="word"></p>
+          <p className="mean">단어가 존재하지 않습니다.</p>
+        </li>
+      ) : (
+        ""
+      )}
     </ul>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Form } from "./wordContainer";
 
 type inputProps = {
-  handleSubmit: (form: { word: string; mean: string }) => void;
+  handleSubmit: (form: Form) => void;
   handleDelete: () => void;
   handleBlind: () => void;
 };
@@ -13,6 +14,14 @@ function InputWord({ handleSubmit, handleDelete, handleBlind }: inputProps) {
   });
   const onHandleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const blank_pattern = /^\s+|\s+$/g;
+    if (
+      form.mean.replace(blank_pattern, "") === "" ||
+      form.word.replace(blank_pattern, "") === ""
+    ) {
+      alert("공백만 입력되었습니다.");
+      return;
+    }
     handleSubmit(form);
     setForm({
       mean: "",

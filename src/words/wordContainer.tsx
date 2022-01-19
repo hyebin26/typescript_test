@@ -2,19 +2,26 @@ import { useEffect, useState } from "react";
 import Content from "./content";
 import InputWord from "./inputWord";
 
-export interface Words {
+export type Words = {
   id: number;
   mean: string;
   word: string;
-}
+};
+
+export type Form = {
+  mean: string;
+  word: string;
+};
+
+export type CheckedInput = boolean[];
 
 function WordContainer() {
   const [words, setWords] = useState<Words[]>([]);
-  const [checkedInput, setCheckedInput] = useState<boolean[]>(
+  const [checkedInput, setCheckedInput] = useState<CheckedInput>(
     Array.from({ length: words.length }, (x) => false)
   );
   const [blind, setBlind] = useState(false);
-  const handleSubmit = (form: { mean: string; word: string }) => {
+  const handleSubmit = (form: Form) => {
     if (words.length >= 10) {
       alert("단어는 10개가 최대입니다~");
     }
@@ -31,10 +38,9 @@ function WordContainer() {
       setCheckedInput([...checkedInput, false]);
     }
   };
-  const handleCheck = (id: number) => {
+  const handleCheck = (id: number): void => {
     const handleCheckedInput = [...checkedInput];
     handleCheckedInput[id] = !handleCheckedInput[id];
-    console.log(handleCheckedInput);
     setCheckedInput(handleCheckedInput);
   };
   const handleDelete = () => {
@@ -63,7 +69,7 @@ function WordContainer() {
   };
   useEffect(() => {
     const data = localStorage.getItem("words");
-    if (typeof data === "string") {
+    if (data) {
       setWords(JSON.parse(data));
       setCheckedInput(
         Array.from([...JSON.parse(data)], (x) => {
